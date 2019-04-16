@@ -1,0 +1,31 @@
+.c-card {
+    padding: 0rem 0;
+}
+
+.c-card__title {
+    font-size: 1.25rem;
+    color: #000;
+}
+
+
+.c-card__views {
+    font-size: 0.75rem;
+}
+
+.c-card__metrics {
+    font-size: 0.75rem;
+    color: #545454;
+}
+
+.c-card__likes--active {
+    color: #ff0054;
+}
+
+.c-card__likes:hover {
+    cursor: pointer;
+}
+
+
+.c-tags {
+    font-size: 0.75rem;
+}

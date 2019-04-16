@@ -1,0 +1,121 @@
+.header {
+    background: #fbfbfb;
+    padding: 1.25em 1.5em;
+
+    &__l-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__section {
+        display: flex;
+
+        &--right {
+            align-items: center;
+            flex-basis: 35%;
+        }
+    }
+
+    &__logo {
+        padding-right: 2em;
+    }
+
+    &__links {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        &--mobile {
+            flex-direction: column;
+            align-items: baseline;
+            height: 10em;
+        }
+    }
+
+    &__link {
+        margin-right: 0.7rem;
+        font-weight: 600;
+        color: #000;
+        transition: color .15s ease-in;
+
+        &:hover {
+            color: #054ddb;
+            transition: color .2s ease-in;
+        }
+
+        &--sign-in {
+            margin-left: 2rem;
+            flex-shrink: 0;
+            color: #000;
+        }
+    }
+
+    &__search {
+        width: 100%;
+    }
+
+    &__dots {
+        display: none;
+    }
+
+    &__mobile {
+        position: absolute;
+        overflow: hidden;
+        z-index: 10;
+        max-height: 0;
+        background: #fbfbfb;
+        width: 100%;
+        left: 0;
+        padding: 0 2em;
+        transition: all .15s ease-in-out;
+
+        &--active {
+            position: absolute;
+            overflow: hidden;
+            max-height: 12em;
+            background: #fbfbfb;
+            width: 100%;
+            left: 0;
+            padding: 1em 2em;
+            transition: all .15s ease-in-out;
+        }
+    }
+}
+
+@media (max-width: 750px) {
+    .header__links--hidden {
+        display: none;
+    }
+
+    .header__link--sign-in {
+        display: none;
+    }
+
+    .header__section--right {
+        flex-basis: 50%;
+    }
+
+    .header__dots {
+        display: block;
+        padding: 0.5rem;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+}
+
+@media (max-width: 450px) {
+    .header__name {
+        display: none;
+    }
+
+    .header__section--right {
+        justify-content: space-between;
+        align-items: center;
+        flex-basis: 90%;
+    }
+
+    .header__link {
+        margin-right: 0;
+    }
+}

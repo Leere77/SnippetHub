@@ -1,0 +1,49 @@
+$navy: #001e38;
+$green: #15b78f;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box; 
+}
+
+::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #e1e1e1;
+}
+
+body {
+  font-size: 14px;
+  line-height: 1.5rem;
+  font-family: 'Open Sans', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+  color: #000;
+}
+
+h1 {
+  font-weight: 600;
+}
+
+.l-center {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  &--form {
+    margin-top: 3rem;
+    max-width: 800px;
+  }
+
+  &__label {
+    display: inline;
+  }
+}

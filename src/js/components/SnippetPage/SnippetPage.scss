@@ -1,0 +1,58 @@
+.c-snippet {
+    display: flex;
+    height: calc(100vh - 5em);
+
+    &__description {
+        flex-basis: 40%;
+        padding: 1rem;
+        overflow-y: auto;
+    }
+
+    &__code {
+        flex-basis: 60%;
+        height: inherit;
+    }
+
+    &__code-input {
+        margin: 0px;
+        height: inherit;
+        min-height: 20vh;
+        width: 100%;
+        border: none;
+        background: #f8f8f8;
+        padding: 0.5rem;
+        outline: none;
+    }
+}
+
+pre {
+    position: absolute;
+    width: 60%;
+    height: inherit;
+}
+
+code {
+    height: 100%;
+    overflow-y: unset;
+}
+
+@media (max-width: 750px) {
+    .c-snippet {
+        flex-direction: column;
+        overflow-y: none;
+
+        &__code {
+            height: auto;
+            flex-basis: auto;
+        }
+
+        &__description {
+            flex-basis: auto;
+            overflow-y: initial;
+        }
+    }
+
+    pre {
+        width: 100%;
+    }
+}

@@ -1,0 +1,31 @@
+$bg: #efefef;
+$icon-col: #7a7a7a;
+$border-col: #e1e1e1;
+
+.search {
+    position: relative;
+
+    &__input {
+        background: $bg;
+        padding: 0.5rem 0.5rem 0.5rem 2rem;
+        border: 1px solid $bg;
+        border-radius: 2px;
+        outline: none;
+        width: 100%;
+
+        &:focus {
+            border: 1px solid $border-col;
+        }
+    }
+
+    &__btn {
+        position: absolute;
+        top: 1px;
+        left: 0;
+        height: calc(100% - 2px);
+        margin-left: 1em;
+        border: none;
+        color: $icon-col;
+        background: $bg;
+    }
+}
