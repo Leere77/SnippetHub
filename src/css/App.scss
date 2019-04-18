@@ -36,7 +36,6 @@ h1 {
 .l-center {
   max-width: 960px;
   margin: 0 auto;
-  padding: 1rem;
 
   &--form {
     margin-top: 3rem;
@@ -45,5 +44,9 @@ h1 {
 
   &__label {
     display: inline;
+  }
+
+  &__title {
+    margin: 1rem;
   }
 }

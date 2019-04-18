@@ -2,8 +2,7 @@ import React from "react"
 
 import "./Card.scss"
 
-const Card = (props) => {
-    const {title, tags, desc, metrics} = props.snippet
+const Card = ({title, tags, desc, metrics = undefined}) => {
 
     const tagList = tags.map(tag => {
         return <a href="" className="c-tags__item link" key={tag}>#{tag}</a>
@@ -20,7 +19,7 @@ const Card = (props) => {
             <div className="c-card__description">
                 <p>{desc}</p>
             </div>
-
+            {metrics &&
             <div className="c-card__metrics">
                 <span className="c-card__views">
                     <span className="fas fa-eye"></span>
@@ -32,6 +31,7 @@ const Card = (props) => {
                     {metrics.likes}
                 </span>
             </div>
+            }
         </div>
     )
 }

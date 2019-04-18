@@ -6,17 +6,11 @@ import Login from "../Login/Login"
 import UserPage from "../UserPage/UserPage"
 import Snippet from "../SnippetPage/Snippet"
 import NewSnippet from "../SnippetPage/NewSnippet"
+import Search from "../Search/Search"
 
 function Home() {
   return (
     <h2>Home page</h2>
-  )
-}
-
-function Search(props) {
-  console.log(props)
-  return (
-    <h1>Search whatever you want</h1>
   )
 }
 

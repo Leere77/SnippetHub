@@ -9,13 +9,14 @@ class Snippet extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            snippet: null
+            loaded: false
         }
     }
 
     componentDidMount() {
         this.setState({
-            snippet: {
+                loaded: true,
+            
                 title: 'First example',
                 tags: ['first', 'second'],
                 desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit illum cumque et veritatis culpa dicta incidunt dolor, repellendus reprehenderit officiis ducimus corrupti consectetur, provident nulla exercitationem quia perferendis omnis illo',
@@ -63,18 +64,32 @@ class Snippet extends Component {
     })
         `,
                 lang: 'javascript'
-            }
         })
     }
 
     render() {
-        if(!this.state.snippet) 
+        if(!this.state.loaded) 
             return <h1>Loading</h1>
 
         return (
             <div className="c-snippet">
-                <div className="c-snippet__description"><Card snippet={this.state.snippet}/></div>
-                <div className="c-snippet__code"><Code rawCode={this.state.snippet.code} lang={this.state.snippet.lang}/></div>
+                <div className="c-snippet__description">
+                    <Card 
+                        title={this.state.title}
+                        tags={this.state.tags}
+                        description={this.state.desc}
+                        metrics={this.state.metrics}
+                        code={this.state.code}
+                        lang={this.state.lang}
+                    />
+                    
+                </div>
+                <div className="c-snippet__code">
+                    <Code 
+                        rawCode={this.state.code} 
+                        lang={this.state.lang}
+                    />
+                </div>
             </div>
         )
     }
