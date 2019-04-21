@@ -1,5 +1,5 @@
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "../../constants"
-import { auth } from "../../js/auth"
+import { auth } from "../../js/authMethods"
 
 function requestLogin() {
     return {
@@ -23,14 +23,14 @@ function loginFailture(errMsg) {
         type: LOGIN_FAILURE,
         isFetching: false,
         isAuth: false,
-        errMsg: errMsg.custom_error_description
+        errMsg: errMsg === 'invalid_grant' ? 'Wrong user data' : 'Error occured'
     }
 }
 
-export const loginUser = ({username, password}) => dispatch => {
+export const loginUser = (vals) => dispatch => {
     dispatch(requestLogin())
 
-    auth.login(username, password)
+    auth.login(vals)
         .then(({error, access_token, refresh_token }) => {
             if(error) throw new Error(error)
 

@@ -1,19 +1,19 @@
 import React from "react" 
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { loginUser } from "../../../actions"
+import { loginUser, signupUser } from "../../../actions"
 
 import LoginForm from "./LoginForm"
 import "./LoginForm.scss"
 
 const Login = ({isAuth, isFetching, errMsg, dispatch}) => {
-    let errCaption
+    let errCaption = <p className="l-center__error-label"></p>
     if(isAuth) 
         return <Redirect to="/" />
         console.log(errMsg)
     if(errMsg) 
-        errCaption = <span>{errMsg}</span>
+        errCaption = <p className="l-center__error-label l-center__error-label--shown">{errMsg}</p>
 
     return(
         <div className="l-center l-center--form">
@@ -22,7 +22,10 @@ const Login = ({isAuth, isFetching, errMsg, dispatch}) => {
             
             <div className="c-auth">
                 <form className="c-auth__form form">
-                    <LoginForm isFetching={isFetching} submit={vals => dispatch(loginUser(vals))} />
+                    <LoginForm 
+                        isFetching={isFetching}
+                        loginUser={vals => dispatch(loginUser(vals))}
+                        signupUser={vals => dispatch(signupUser(vals))} />
                 </form>
                 <div className="c-auth__services">
                     <p className="c-auth__service-caption">Sign in with</p>

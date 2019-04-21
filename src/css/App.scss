@@ -40,10 +40,21 @@ h1 {
   &--form {
     margin-top: 3rem;
     max-width: 800px;
+    text-align: center;
   }
 
   &__label {
     display: inline;
+  }
+
+  &__error-label {
+    max-height: 0px;
+    overflow: hidden;
+
+    &--shown {
+      max-height: 1.45rem;
+      transition: max-height .1s ease-in;
+    }
   }
 
   &__title {

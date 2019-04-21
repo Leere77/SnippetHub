@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React from "react"
+import { connect } from 'react-redux'
 
 import Card from "../Card/Card"
 import "./Search.scss"
@@ -154,8 +155,13 @@ function Pagination({handler, currentPage, resultsLength, cardsPerPage}) {
     )
 }
 
-const Search = () => {
-    const [page, setPage] = useState(1)
+const Search = ({page, dispatch}) => {
+    const setPage = page => {
+        dispatch({
+            type: 'SEARCH_PAGE_SET',
+            page
+        })
+    }
     const cardsPerPage = 9
     let emptyCards = ''
 
@@ -198,4 +204,8 @@ const Search = () => {
     )
 }
 
-export default Search
+const mapStateToProps = ({search}) => ({
+    page: search.page
+})
+
+export default connect(mapStateToProps)(Search)

@@ -1,5 +1,5 @@
 import { GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE } from '../../constants';
-import { auth } from "../../js/auth"
+import { auth } from "../../js/authMethods"
 
 function requestUserInfo() {
     return {

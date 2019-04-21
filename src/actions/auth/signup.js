@@ -1,5 +1,5 @@
 import { SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE } from "../../constants"
-import { auth } from "../../js/auth"
+import { auth } from "../../js/authMethods"
 
 function requestSignup() {
     return {
@@ -8,13 +8,10 @@ function requestSignup() {
     }
 }
 
-function signupSuccess(tokens) {
+function signupSuccess() {
     return {
         type: SIGNUP_SUCCESS,
-        isFetching: false,
-        isAuth: true,
-        access_token: tokens.access_token,
-        refresh_token: tokens.refresh_token
+        isFetching: false
     }
 }
 
@@ -27,17 +24,14 @@ function signupFailture(errMsg) {
     }
 }
 
-export const signupUser = ({ name, email, password }) => dispatch => {
+export const signupUser = (vals) => dispatch => {
     dispatch(requestSignup());
   
-    Auth.signup(name, email, password)
-      .then(({ err, access_token, refresh_token }) => {
-        if (err) throw new Error(err);
+    auth.signUp(vals)
+        .then(({ data }) => {
+            if (data.error) throw new Error(data.message);
 
-        localStorage.setItem('access_token', access_token);
-        localStorage.setItem('refresh_token', refresh_token);
-
-        dispatch(signupSuccess({ access_token, refresh_token }));
-      })
-      .catch(err => dispatch(signupFailture(err)));
+            dispatch(signupSuccess());
+        })
+        .catch(err => dispatch(signupFailture(err.data.message.charAt(0).toUpperCase() + err.data.message.slice(1))));
   };

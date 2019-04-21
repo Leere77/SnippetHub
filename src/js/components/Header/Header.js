@@ -1,16 +1,27 @@
-import React, { useEffect, useRef, useState } from "react"
-import {Link} from "react-router-dom"
-import { connect } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import { getUserInfo } from "../../../actions"
+import { getUserInfo } from '../../../actions/auth/getUser'
 
-import "./Header.scss"
-import SearchInput from "../SearchInput/SearchInput";
+import './Header.scss'
+import SearchInput from '../SearchInput/SearchInput';
 
-const Header = ({isFetching, isAuth, user, errMsg, dispatch, match}) => {
+const Header = ({isFetching, isAuth, user, errMsg, dispatch, history}) => {
   if(isAuth&&!user)
     if(!isFetching && !errMsg)
         dispatch(getUserInfo())
+
+  const inputHandler = (e) => {
+    if(e.key === 'Enter' && e.target.value)
+      history.push('/search')
+
+      dispatch({
+        type: 'SEARCH_QUERY_SET',
+        query: e.target.value
+      })
+  }
   
   const profileLink = user ? `/users/${user.userName}` : "/login"
   const profileLabel = user ? user.userName : "Sign in"
@@ -50,7 +61,7 @@ const Header = ({isFetching, isAuth, user, errMsg, dispatch, match}) => {
         
       <div className="header__section header__section--right ">
 
-        <SearchInput block="header" placeholder="Search"/>
+        <SearchInput block="header" placeholder="Search" handler={inputHandler}/>
 
         <Link to={profileLink} className="header__link link header__link--sign-in">{profileLabel}</Link>
         <span className="fas fa-ellipsis-h header__dots" onClick={() => toggleNavState(!navState)}></span>
@@ -76,4 +87,4 @@ const mapStateToProps = ({auth}) => ({
   errMsg: auth.errMsg
 })
 
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps)(withRouter(Header))

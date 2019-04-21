@@ -5,10 +5,11 @@
 .c-auth {
     display: flex;
     margin-top: 2rem;
+    margin-bottom: 2rem;
     padding: 2rem;
     border: 1px solid #efefef;
     border-radius: 2px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
+    // box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 30px;
 
     &__form {
         flex-basis: 50%;
@@ -16,6 +17,9 @@
 }
 
 .form {
+    display: flex;
+    flex-direction: column;
+    
     &--snippet {
         display: flex;
         flex-direction: column;
@@ -64,6 +68,15 @@
         transition: all 0.15s ease-in-out;
     }
 
+    &--disabled {
+        opacity: 0.3;
+
+        &:hover {
+            color: #000;
+            background: #fff;
+        }
+    }
+
     &--snippet {
         width: 30%;
     }
@@ -84,6 +97,10 @@
 
     &--snippet {
         width: 70%;
+    }
+
+    &--warn {
+        border: 1px solid #ff0000;
     }
 }
 
@@ -132,6 +149,19 @@
     margin-bottom: 1rem;
 }
 
+.form__label-wrapper {
+    width: 85%;
+}
+
+.form__label {
+    float: left;
+
+    &--error {
+        float: right;
+        font-size: 0.75rem;
+    }
+}
+
 @media (max-width: 450px) {
     .c-auth {
         flex-direction: column;
@@ -146,6 +176,10 @@
     }
 
     .form__input {
+        width: 100%;
+    }
+
+    .form__label-wrapper {
         width: 100%;
     }
 }

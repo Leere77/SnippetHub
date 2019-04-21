@@ -1,35 +1,29 @@
 import React, { Component } from "react"
 import {SwitchButtons} from './SwitchButtons'
 
-const SignInInputs = ({handler, submit}) => {
-    return (
-        <>
-            <label htmlFor="email">E-mail</label><br/>
-            <input type="text" name="email" className="form__input" id="email" onChange={handler} placeholder="Your e-mail"/><br/>
+function Inputs({inputsArray, warning}) {
+    return inputsArray.map(input => {
+        let className = input.className
 
-            <label htmlFor="pass">Password</label><br/>
-            <input type="password" name="pass" className="form__input" id="pass" onChange={handler} placeholder="Your password"/><br/>
-
-            <input type="submit" className="form__submit" onClick={submit} value="Sign in" />
-        </>
-    )
-}
-
-const SignUpInputs = ({handler, submit}) => {
-    return (
-        <>
-            <label htmlFor="email">E-mail</label><br/>
-            <input type="text" name="email" className="form__input" id="email" onChange={handler} placeholder="Your e-mail"/><br/>
-
-            <label htmlFor="username">Username</label><br/>
-            <input type="text" name="username" className="form__input" id="username" onChange={handler} placeholder="Your password"/><br/>
-
-            <label htmlFor="pass">Password</label><br/>
-            <input type="password" name="pass" className="form__input" id="pass" onChange={handler} placeholder="Your password"/><br/>
-
-            <input type="submit" className="form__submit" onClick={submit} value="Sign up" />
-        </>
-    )
+        return (
+            <>
+                <div className="form__label-wrapper">
+                    <label className="form__label" htmlFor={input.name} key={input.label}>{input.label}</label>
+                    {warning && input.name in warning && <span className="form__label--error">{warning[input.name]}</span>}
+                </div>
+                <input 
+                    type={input.type}
+                    name={input.name}
+                    className={className}
+                    id={input.name}
+                    onChange={e => input.onChange(e)}
+                    placeholder={input.placeholder}
+                    onBlur={input.onBlur}
+                    key={input.name}
+                />
+            </>
+        )
+    })
 }
 
 class LoginForm extends Component {
@@ -37,9 +31,13 @@ class LoginForm extends Component {
         super(props)
         this.state = {
             logIn: true,
-            email: 'admin',
-            username: null,
-            pass: 'admin'
+            email: '',
+            userName: '',
+            userNameSignUp: '',
+            passwordSignIn: '',
+            password: '',
+            passwordRepeat: '',
+            warning: null
         }
 
         //this.auth = new authMethods()
@@ -47,10 +45,60 @@ class LoginForm extends Component {
         this.toggleType = this.toggleType.bind(this)
         this.handler = this.handler.bind(this)
         this.submit = this.submit.bind(this)
+
+        this.signIninputs = [{
+            type: 'text',
+            name: 'userName',
+            label: 'Username',
+            className: 'form__input',
+            placeholder: 'Your name',
+            onChange: this.handler
+        },
+        {
+            type: 'password',
+            name: 'passwordSignIn',
+            label: 'Password',
+            className: 'form__input',
+            placeholder: 'Password',
+            onChange: this.handler
+        }]
+
+        this.signUpinputs = [{
+            type: 'text',
+            name: 'email',
+            label: 'Email',
+            className: 'form__input',
+            placeholder: 'Your email',
+            onChange: this.handler
+        },
+        {
+            type: 'text',
+            name: 'userNameSignUp',
+            label: 'Username',
+            className: 'form__input',
+            placeholder: 'Your name',
+            onChange: this.handler
+        },
+        {
+            type: 'password',
+            name: 'password',
+            label: 'Password',
+            className: 'form__input',
+            placeholder: 'Password',
+            onChange: this.handler
+        },
+        {
+            type: 'password',
+            name: 'passwordRepeat',
+            label: 'Password',
+            className: 'form__input',
+            placeholder: 'Password again',
+            onChange: this.handler
+        }]
     }
 
-    toggleType(curr) {
-        this.setState({logIn: curr})
+    toggleType(logIn) {
+        this.setState({logIn})
     }
 
     handler(e) {
@@ -61,21 +109,49 @@ class LoginForm extends Component {
 
     submit(e) {
         e.preventDefault()
+        let warning = {}
+        if(!this.state.logIn) {
+            if(!/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(this.state.email)) warning.email = 'Wrong email'
+            if(!this.state.password) warning.password = 'Field required'
+            if(!this.state.passwordRepeat) warning.passwordRepeat = 'Field required'
+            if(!this.state.userNameSignUp) warning.userNameSignUp = 'Field required'
+            if(this.state.password != this.state.passwordRepeat) warning.passwordRepeat = 'Wrong password'
+        } else {
+            if(!this.state.userName) warning.userName = 'Field required'
+            if(!this.state.passwordSignIn) warning.passwordSignIn = 'Field required'
+        }
+
+        if(Object.keys(warning).length > 0) {
+            this.setState({warning})
+            return
+        }
+        console.log(this.state)
         //this.auth.login(this.state.email, this.state.pass)
-        this.props.submit({username: this.state.email, password: this.state.pass})
+        //this.props.submit({userName: this.state.email, password: this.state.pass})
         if(this.state.logIn)
-            console.log({email: this.state.email, password: this.state.pass})
+            this.props.loginUser({userName: this.state.userName, password: this.state.passwordSignIn})
         else
-            console.log({email: this.state.email, username: this.state.username, password: this.state.pass})
+            this.props.signupUser({email: this.state.email, userName: this.state.userNameSignUp, password: this.state.password})
     }
 
     render() {
         return (
             <>
-                <SwitchButtons switchFunc={this.toggleType} state={this.state.logIn}/>
-
-                {this.state.logIn && <SignInInputs handler={this.handler} submit={this.submit}/>}
-                {!this.state.logIn && <SignUpInputs  handler={this.handler} submit={this.submit}/>}
+                <SwitchButtons 
+                    switchFunc={this.toggleType} 
+                    state={this.state.logIn}
+                />
+                <Inputs 
+                    inputsArray={this.state.logIn ? this.signIninputs : this.signUpinputs} 
+                    warning={this.state.warning}
+                />
+                
+                <input 
+                    type="submit" 
+                    className="form__submit"
+                    onClick={this.submit}
+                    value={this.state.logIn ? 'Sign in' : 'Sign up'}
+                />
             </>
         )
     }

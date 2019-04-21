@@ -4,19 +4,20 @@ import decode from 'jwt-decode'
 import { TOKEN_REFRESH_REQUEST, TOKEN_REFRESH_SUCCESS, TOKEN_REFRESH_FAILURE } from "../constants"
 import store from "../store"
 
-const axiosInstance = axios.create({
-    timeout: 5000,
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        "Authorization" : `Bearer ${localStorage.getItem('access_token')}`
-    }
-})
+let conf = {
+    timeout: 5000
+}
+
+if(localStorage.getItem('access_token'))
+    conf['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`
+
+const axiosInstance = axios.create(conf)
 
 axiosInstance.interceptors.response.use(
     response => response,
     error => {
         const req = error.config
-       if(error.code == 'ECONNABORTED') return Promise.reject(error)
+        if(error.code == 'ECONNABORTED') return Promise.reject(error)
 
         if(error.response.data.custom_error_description == "Bad credentials")
             return Promise.reject(error.response.data)
@@ -99,7 +100,7 @@ axiosInstance.interceptors.response.use(
                     })
                 })
         }
-
+        console.warn('here')
         return Promise.reject(error)
     }
 )
